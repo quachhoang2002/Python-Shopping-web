@@ -1,13 +1,18 @@
 from email import message
 from multiprocessing import context
+from unicodedata import name
+from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-
+from django.core import validators
 from django.contrib import messages
-from .models import product
+from django.urls import is_valid_path
+from .models import product,cart
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
-from . import forms
+from .forms import CreateUserForm
+
 # Create your views here.
 def index(request):
     items=product.objects.all()
@@ -38,6 +43,31 @@ def Login(request):
 def Logout(request):
     logout(request)
     return redirect('home:index')
-    
-        
-                    
+
+def Register(request):
+    page='register'
+    form=CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user=form.cleaned_data.get('username')
+            form.save()
+            messages.success(request,'tao thanh cong '+user)
+    else:
+        messages.error(request,'Xay ra su co')
+    context={'form':form,'page':page}
+    return render(request, 'pages/login-register-form.html', context)
+ 
+@login_required(login_url='home:Login')   
+def addtoCart(request,product_id):
+    item=product.objects.get(id=product_id)
+    price=item.price
+    user=request.user
+    Cart=cart.objects.create(user=user,product=item,quantity=1,price=price)   
+    return redirect('home:index')
+@login_required(login_url='home:Login') 
+def Cart(request):
+    user=request.user
+    Cart=cart.objects.filter(user=user)
+    context={'cart':Cart}
+    return render(request,'pages/cart.html',context)                

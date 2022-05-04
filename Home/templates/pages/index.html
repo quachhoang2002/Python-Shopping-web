@@ -1,12 +1,14 @@
 {% extends 'pages/page.html' %} 
 {% block content %}
       
+
+      <a href="{% url 'home:Cart' %}">Gio hang</a>
       {% if request.user.is_authenticated %}
-            {{user.username}}
+            {{user.username}}               
           <a href="{% url 'home:Logout' %}">Dang Xuat</a>           
         {% else %}
           <a href="{% url 'home:Login' %}">Dang nhap</a>
-      {% endif %}
+      {% endif %} 
             
      
 
@@ -14,7 +16,7 @@
         <div> {{item.id}} </div>
          <img  src="Home/media/{{item.image}}" alt="" srcset="" style="height: 100px;" >
          <div> {{item.name}} </div>
-           
+           <a href="{% url 'home:addtoCart' item.id %}">addtocart</a>
       {% endfor %}
          
     

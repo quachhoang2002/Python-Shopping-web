@@ -1,0 +1,18 @@
+{% extends 'pages/page.html' %}
+{% block content %}
+    
+
+
+
+    <table class="table-bordered">
+        {% for item in cart %}
+          <tr>
+              <td><img src="../Home/media/{{item.product.image}}" alt="" style="height:100px"></td>
+              <td>{{item.product.name}}</td>
+              <td>{{item.quantity}}</td>
+              <td>{{item.price}}</td>           
+          </tr>
+         
+        {% endfor %}
+    </table>
+{% endblock content %}

@@ -15,7 +15,7 @@
           <input type="submit" value="dang nhap">
       </form> 
       <label for="">Ban chua co tai khoan</label>
-   
+      <a href="{% url 'home:Register' %}">Dang ky</a>
   </div>  
 
   
@@ -29,7 +29,7 @@
 
       {% else %}      
   <form action="" method="POST">
-    {% csrf_token %}
+     {% csrf_token %}
       Ten Dang Nhap 
       {{form.username}}
       <br>
@@ -48,7 +48,7 @@
     {{form.errors}}
 
     <label for="">Ban da co tai khoan</label>
-    <a href="{% url 'home:login_form' %}">Dang nhap</a>
+    <a href="{% url 'home:Login' %}">Dang nhap</a>
     {% endif %}
 
 {% endblock content %}
