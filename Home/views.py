@@ -1,22 +1,27 @@
 from email import message
 from multiprocessing import context
-from unicodedata import name
+from unicodedata import category, name
 from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.core import validators
 from django.contrib import messages
 from django.urls import is_valid_path
-from .models import product,cart
+from .models import product,cart,caterogy
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from .forms import CreateUserForm
-
+from django.db.models import Q
 # Create your views here.
 def index(request):
-    items=product.objects.all()
-    context={'items':items}
+    if request.GET.get('q')!=None:
+        q=request.GET.get('q')
+    else:
+        q=''; 
+    items=product.objects.filter(Q(name__icontains=q)|Q(type__name__icontains=q))
+    type=caterogy.objects.all
+    context={'items':items,'types':type}
     return render(request,'pages/index.html',context)
 
     
@@ -65,6 +70,7 @@ def addtoCart(request,product_id):
     user=request.user
     Cart=cart.objects.create(user=user,product=item,quantity=1,price=price)   
     return redirect('home:index')
+
 @login_required(login_url='home:Login') 
 def Cart(request):
     user=request.user

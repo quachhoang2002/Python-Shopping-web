@@ -14,8 +14,21 @@
             <li class="nav-item">
               <a class="nav-link" href="orderStatus.php">Xem Don Hang <i class="ti-notepad"></i> </a>
             </li>    
-            <li class="nav-item">
-              <a class="nav-link" href="#">Tai Khoan <i class="ti-user"></i></a>
+
+            {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                   <a href="" class="nav-link">{{user.username}}</a>
+                </li>            
+               <li class="nav-item">
+                <a href="{% url 'home:Logout' %}" class="nav-link">Dang Xuat</a>    
+               </li>        
+             {% else %}
+               <li class="nav-item">
+                 <a href="{% url 'home:Login' %}" class="nav-link">Dang nhap</a>  
+               </li>                  
+            {% endif %} 
+          
+            
             </li>
           </ul>         
       </div>    
@@ -45,7 +58,7 @@
            </div>
       
            <div class="navbar-items">
-               <a href="cart.php" class="nav-item text-decoration-none "> Gio Hang <i class="ti-shopping-cart"></i>  </a>
+               <a href="{% url 'home:Cart' %}" class="nav-item text-decoration-none "> Gio Hang <i class="ti-shopping-cart"></i>  </a>
            </div>  
            
          </div>
