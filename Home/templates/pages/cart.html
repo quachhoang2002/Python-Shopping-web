@@ -10,9 +10,12 @@
               <td><img src="../Home/media/{{item.product.image}}" alt="" style="height:100px"></td>
               <td>{{item.product.name}}</td>
               <td>{{item.quantity}}</td>
-              <td>{{item.price}}</td>           
+              <td>{{item.price}}</td>     
+              <td>{{item.create_at}}</td> 
+              <td>{{item.totalPrice}}</td>     
           </tr>
          
         {% endfor %}
     </table>
+    <a href="{% url 'home:order-form' %}">order</a>
 {% endblock content %}

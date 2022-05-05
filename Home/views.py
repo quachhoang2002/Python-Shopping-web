@@ -7,12 +7,12 @@ from django.http import HttpResponse
 from django.core import validators
 from django.contrib import messages
 from django.urls import is_valid_path
-from .models import product,cart,caterogy
+from .models import order, product,cart,caterogy
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
-from .forms import CreateUserForm
-from django.db.models import Q
+from .forms import CreateUserForm,OrderForm
+from django.db.models import Q,F
 # Create your views here.
 def index(request):
     if request.GET.get('q')!=None:
@@ -68,7 +68,10 @@ def addtoCart(request,product_id):
     item=product.objects.get(id=product_id)
     price=item.price
     user=request.user
-    Cart=cart.objects.create(user=user,product=item,quantity=1,price=price)   
+    if cart.objects.filter(Q(user=user)&Q(product=item)).count()==0:
+        cart.objects.create(user=user,product=item,quantity=1,price=price)   
+    else:     
+        cart.objects.filter(Q(user=user)&Q(product=item)).update(quantity=F('quantity')+1)
     return redirect('home:index')
 
 @login_required(login_url='home:Login') 
@@ -76,4 +79,24 @@ def Cart(request):
     user=request.user
     Cart=cart.objects.filter(user=user)
     context={'cart':Cart}
-    return render(request,'pages/cart.html',context)                
+    return render(request,'pages/cart.html',context)   
+             
+@login_required(login_url='home:Login') 
+def Order_Form(request):
+    user=request.user
+    order_Form=OrderForm()
+    Cart=cart.objects.filter(user=user)
+    context={'form':order_Form,'cart':Cart}
+    return render(request,'pages/Order-form.html',context)
+    
+
+@login_required(login_url='home:Login') 
+def Order(request):
+    user=request.user
+    Cart=cart.objects.filter(user=user)
+    address=request.POST.get('address')
+    phone=request.POST.get('phone')
+    Order=order.objects.create(user=user,address=address,phone=phone,total_price='50000')  
+    Order.product.set(Cart)
+    Cart.delete()
+    return redirect('home:index')

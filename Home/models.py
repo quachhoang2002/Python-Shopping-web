@@ -1,5 +1,7 @@
 from distutils.command.upload import upload
+from email.headerregistry import Address
 from pyexpat import model
+import string
 from tkinter import CASCADE
 from unicodedata import name
 from django.db import models
@@ -23,12 +25,19 @@ class cart(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     product=models.ForeignKey(product,on_delete=models.CASCADE)
     price=models.CharField(max_length=50)
-    quantity=models.IntegerField(max_length=50)
+    quantity=models.IntegerField()
     create_at=models.TimeField(auto_now=True)
     def totalPrice(self):
-        return self.price * self.quantity
+        return int(self.price)*self.quantity
     def __str__(self) :
         return self.user.username
   
-
-       
+class order(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    product=models.ManyToManyField(cart)
+    phone=models.CharField(max_length=25)
+    address=models.CharField(max_length=25)
+    total_price=models.CharField(max_length=50)
+    create_at=models.TimeField(auto_now=True)
+    def __str__(self) :
+        return str(self.id)      
