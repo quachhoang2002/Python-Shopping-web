@@ -18,4 +18,4 @@ class OrderForm(ModelForm):
     class Meta:
         model=order
         fields=['address','phone']    
-        
+

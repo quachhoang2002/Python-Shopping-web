@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from email import message
 from multiprocessing import context
 from unicodedata import category, name
@@ -13,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from .forms import CreateUserForm,OrderForm
 from django.db.models import Q,F
+from django.core.paginator import Paginator
 # Create your views here.
 def index(request):
     if request.GET.get('q')!=None:
@@ -21,10 +23,25 @@ def index(request):
         q=''; 
     items=product.objects.filter(Q(name__icontains=q)|Q(type__name__icontains=q))
     type=caterogy.objects.all
-    context={'items':items,'types':type}
+    if items.count() > 0:
+        items_paginator=Paginator(items,6)
+        page_num=request.GET.get('page')
+        
+        page=items_paginator.get_page(page_num)
+        context={'items':items,
+             'types':type,
+             'page':page,  
+             }
+    else:
+        items=''
+        context={'items':items,'types':type}    
     return render(request,'pages/index.html',context)
 
-    
+def ProductDetail(request,id):
+    item=product.objects.get(id=id)
+    context={'item':item}
+    return render(request,'pages/product-detail.html',context)
+        
 def Login(request):
     page='login'
     if request.user.is_authenticated:
@@ -78,7 +95,10 @@ def addtoCart(request,product_id):
 def Cart(request):
     user=request.user
     Cart=cart.objects.filter(user=user)
-    context={'cart':Cart}
+    if Cart.count() == 0:
+        context={'cart':''}
+    else:
+        context={'cart':Cart}
     return render(request,'pages/cart.html',context)   
              
 @login_required(login_url='home:Login') 

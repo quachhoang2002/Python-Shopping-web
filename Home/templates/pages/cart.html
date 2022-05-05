@@ -1,9 +1,10 @@
 {% extends 'pages/page.html' %}
 {% block content %}
     
-
-
-
+   
+   {% if cart == '' %}
+       hay mua san pham
+    {% else %}
     <table class="table-bordered">
         {% for item in cart %}
           <tr>
@@ -18,4 +19,7 @@
         {% endfor %}
     </table>
     <a href="{% url 'home:order-form' %}">order</a>
+
+    {% endif %}
+
 {% endblock content %}
