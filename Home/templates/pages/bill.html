@@ -1,0 +1,31 @@
+{% extends 'pages/page.html' %}
+{% block content %}
+    <div class="container ">
+       <table class="table table-bordered mt-5">
+          <thead>
+               <tr>
+                  <td>ID</td>
+                  <td>SDT</td>
+                  <td>Dia Chi</td>
+                  <td>Thoi Gian</td>
+               </tr>
+          </thead>    
+          
+          <tbody>
+            {% for item in  bill %}
+              <tr>
+                 <td>{{item.id}}</td>
+                 <td>{{item.phone}}</td>
+                 <td>{{item.address}}</td>
+                 <td>{{item.create_at}}</td>
+              </tr>      
+            {% endfor %}
+         </tbody>
+
+       </table>
+
+    </div>
+    
+{% endblock content %}
+
+

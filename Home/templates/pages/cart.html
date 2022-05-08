@@ -1,25 +1,60 @@
 {% extends 'pages/page.html' %}
 {% block content %}
-    
-   
-   {% if cart == '' %}
-       hay mua san pham
-    {% else %}
-    <table class="table-bordered">
-        {% for item in cart %}
-          <tr>
-              <td><img src="../Home/media/{{item.product.image}}" alt="" style="height:100px"></td>
-              <td>{{item.product.name}}</td>
-              <td>{{item.quantity}}</td>
-              <td>{{item.price}}</td>     
-              <td>{{item.create_at}}</td> 
-              <td>{{item.totalPrice}}</td>     
-          </tr>
-         
-        {% endfor %}
-    </table>
-    <a href="{% url 'home:order-form' %}">order</a>
+    <div class="container-fluid">
+      <div class="container">
+        {% if cart == '' %}
+            hay mua san pham
+         {% else %}
+         <table class="table table-bordered  mt-5 text-center align-middle ">
+                <thead>
+                  <tr>
+                    <td>San Pham</td>
+                    <td>San Pham</td>
+                    <td>Gia San Pham</td>
+                    <td>So Luong</td>
+                    <td>xoa</td>
+                  </tr>
+                </thead>
+                <tbody>
+             {% for item in cart %}
+                 <tr>
+                   <td><img src="../Home/media/{{item.product.image}}" alt="" style="height:100px"></td>
+                   <td>{{item.product.name}}</td>
+                   <td>{{item.product.price}}</td>    
+                   <td > <input type="number" value="{{item.quantity}}" id="quantity{{item.id}}" min='1' onchange="update({{item.id}})"> </td>   
+                   <td> <a href="{% url 'home:delete-cart' item.id %}">Xoa</a></td>  
+                 </tr>  
+             {% endfor %}
+               </tbody>
+         </table>
+         {% endif %}
+                   <h3 class="text-center" id="total">Tong Tien :  {{TotalPrice}}$ </h3> 
+                 <div class='text-center mb-5'><a href="{% url 'home:order-form' %}" class="btn btn-danger" style="font-size:25px">Thanh Toan</a>   
+     
+        
+       </div>
+    </div>
 
-    {% endif %}
+
+ 
+  <script type="text/javascript" >
+   
+  
+      function update(id){
+        quantity=$('#quantity'+id).val()
+        $.ajax({
+          url:'{% url 'home:update-cart' %}',
+          method:'POST',
+          data:{csrfmiddlewaretoken: '{{ csrf_token }}',quantity:quantity,id:id },
+          success:function(data){
+            $("#total").load(location.href + " #total")
+            
+          }
+        })
+        
+      }
+       
+  </script>
+
 
 {% endblock content %}

@@ -12,7 +12,8 @@
 
     <form action="{% url 'home:order' %}" method="post">
         {% csrf_token %}
-      {{form.as_p}}
+       {{form.as_p}}
+      
       <button>Mua</button>
     </form>
    

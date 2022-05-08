@@ -15,7 +15,7 @@ class caterogy(models.Model):
 class product(models.Model):
     image=models.ImageField(upload_to='photos')
     name=models.CharField(max_length=25)
-    price=models.CharField(max_length=50)
+    price=models.IntegerField()
     type=models.ForeignKey(caterogy,on_delete=models.CASCADE)
     description=models.TextField() 
     def __str__(self):
@@ -24,20 +24,24 @@ class product(models.Model):
 class cart(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     product=models.ForeignKey(product,on_delete=models.CASCADE)
-    price=models.CharField(max_length=50)
     quantity=models.IntegerField()
     create_at=models.TimeField(auto_now=True)
-    def totalPrice(self):
-        return int(self.price)*self.quantity
+        
     def __str__(self) :
         return self.user.username
   
 class order(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    product=models.ManyToManyField(cart)
     phone=models.CharField(max_length=25)
     address=models.CharField(max_length=25)
-    total_price=models.CharField(max_length=50)
     create_at=models.TimeField(auto_now=True)
+    TotalPrice=models.IntegerField()        
     def __str__(self) :
-        return str(self.id)      
+        return str(self.id) 
+         
+class orderDetail(models.Model):
+    product=models.ForeignKey(product,on_delete=models.CASCADE)
+    order=models.ForeignKey(order,on_delete=models.CASCADE)
+    quantity=models.IntegerField()
+    def __str__(self) :
+        return str(self.order.id)
