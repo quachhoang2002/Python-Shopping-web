@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="container">
         {% if cart == '' %}
-            hay mua san pham
+            <h4 style="text-align:center;font-size:40px" class="mt-5 mb-5">hay mua san pham</h4>
          {% else %}
          <table class="table table-bordered  mt-5 text-center align-middle ">
                 <thead>
@@ -27,11 +27,11 @@
              {% endfor %}
                </tbody>
          </table>
-         {% endif %}
+       
                    <h3 class="text-center" id="total">Tong Tien :  {{TotalPrice}}$ </h3> 
                  <div class='text-center mb-5'><a href="{% url 'home:order-form' %}" class="btn btn-danger" style="font-size:25px">Thanh Toan</a>   
-     
-        
+            {% endif %}
+      
        </div>
     </div>
 

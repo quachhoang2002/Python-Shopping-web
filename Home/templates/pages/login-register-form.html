@@ -3,21 +3,57 @@
   
   {% if page == 'login' %}
   
-  <div>
-      <form action="" method="post">
-         {% csrf_token %}
-          <label for="">Username</label>
-          <input type="text"  placeholder="enterusername" name="username">
+  <section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+  
+              <div class="mb-md-5 mt-md-4 pb-5">
+  
+                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                <p class="text-white-50 mb-5">Please enter your login and password!</p>
  
-          <label for="">Password</label>
-          <input type="password"  name="password">
-
-          <input type="submit" value="dang nhap">
-      </form> 
-      <label for="">Ban chua co tai khoan</label>
-      <a href="{% url 'home:Register' %}">Dang ky</a>
-  </div>  
-
+             <form action="" method="POST">
+                {% csrf_token %}
+                
+                 <div class="form-outline form-white mb-4">
+                  <label class="form-label" for="Username">Username</label>
+                  <input type="text" name="username" id="Username" class="form-control form-control-lg" placeholder="Username" />  
+                </div>
+  
+                <div class="form-outline form-white mb-4">
+                  <label class="form-label" for="typePasswordX">Password</label>
+                  <input type="password" name="password" id="typePasswordX" class="form-control form-control-lg"   placeholder="password" />
+                </div>
+  
+                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+  
+                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+             </form>
+                
+  
+                <div class="d-flex justify-content-center text-center mt-4 pt-1">
+                  <a href="#!" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
+                  <a href="#!" class="text-white"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
+                  <a href="#!" class="text-white"><i class="fab fa-google fa-lg"></i></a>
+                </div>
+  
+              </div>
+  
+              <div>
+                <p class="mb-0">Don't have an account? <a href="{% url 'home:Register' %}" class="text-white-50 fw-bold">Sign Up</a>
+                </p>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+        
   
          {% if messages %}
           <ul class="messages">
@@ -27,28 +63,56 @@
           </ul>    
          {% endif %}
 
-      {% else %}      
-  <form action="" method="POST">
-     {% csrf_token %}
-      Ten Dang Nhap 
-      {{form.username}}
-      <br>
-      Mat Khau
-      {{form.password1}}
-      <br>
-      Nhap lai mat Khau
-      {{form.password2}}
-      <br>
-      Mhap email
-      {{form.email}}
-      <br>
-    <input type="submit" value="submit">
+      {% else %}     
+      <section class="gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+      
+                  <div class="mb-md-5 mt-md-4 pb-5">
+      
+                    <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
+                    <p class="text-white-50 mb-5">Please enter your information!</p>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                       <div class="form-outline form-white mb-4">
+                           <label class="form-label">Ten Dang nhap</label>
+                          {{form.username}}
+                        </div>
+                       <div class="form-outline form-white mb-4">
+                         <label class="form-label">Email</label>
+                         {{form.email}}   
+                       </div>
+   
+                       <div class="form-outline form-white mb-4">
+                         <label class="form-label">Mat Khau</label>
+                         {{form.password1}}       
+                       </div>
+         
+                       <div class="form-outline form-white mb-4">
+                         <label class="form-label" >Nhap lai mat khau</label>
+                         {{form.password2}}  
+                       </div>
 
-    </form>
-    {{form.errors}}
+                       <button class="btn btn-outline-light btn-lg px-5" type="submit">Register</button>   
 
-    <label for="">Ban da co tai khoan</label>
-    <a href="{% url 'home:Login' %}">Dang nhap</a>
+                   </form>
+                  </div>
+                  <div>
+                    {{form.errors}}
+                    <p class="mb-0">You have an account? <a href="{% url 'home:Login' %}" class="text-white-50 fw-bold">Sign in</a>
+                    </p>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+ 
     {% endif %}
 
 {% endblock content %}
