@@ -26,7 +26,11 @@ class cart(models.Model):
     product=models.ForeignKey(product,on_delete=models.CASCADE)
     quantity=models.IntegerField()
     create_at=models.TimeField(auto_now=True)
-        
+    
+    @property
+    def amount(self):
+        return self.product.price*self.quantity
+       
     def __str__(self) :
         return self.user.username
   
@@ -43,5 +47,6 @@ class orderDetail(models.Model):
     product=models.ForeignKey(product,on_delete=models.CASCADE)
     order=models.ForeignKey(order,on_delete=models.CASCADE)
     quantity=models.IntegerField()
+   
     def __str__(self) :
         return str(self.order.id)

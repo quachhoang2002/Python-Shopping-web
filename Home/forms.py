@@ -19,6 +19,8 @@ class CreateUserForm(UserCreationForm):
         model=User
         fields=['username','email','password1','password2']
 class OrderForm(ModelForm):
+    address=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-lg'}))
+    phone=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-lg'}))
     class Meta:
         model=order
         fields=['address','phone']    

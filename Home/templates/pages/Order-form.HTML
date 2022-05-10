@@ -1,20 +1,101 @@
 {% extends 'pages/page.html' %}
 {% block content %}
-   <table>
-       {% for item in cart %}
-        <tr>
-            <td>{{item.product.name}}</td>
-            <td>{{item.quantity}}</td>
-
-        </tr>
-       {% endfor %}
-   </table>
-
-    <form action="{% url 'home:order' %}" method="post">
-        {% csrf_token %}
-       {{form.as_p}}
+ 
+    <div class="card" style="background-color:aliceblue">
+        <div class="card-header bg-black"></div>
+        <div class="card-body">
       
-      <button>Mua</button>
-    </form>
-   
+          <div class="container">
+            <div class="row">
+              <div class="col-xl-12">
+                <i class="far fa-building text-danger fa-6x float-start"></i>
+              </div>
+            </div>
+      
+      
+            <div class="row">
+              <div class="col-xl-12">
+      
+                <ul class="list-unstyled float-end">
+                  <li style="font-size: 30px; color: red;">Python Shop</li>
+                  <li> 30 Binh Phu</li>
+                  <li>123-456-789</li>
+                  <li>mail@mail.com</li>
+                </ul>
+              </div>
+            </div>
+      
+            <div class="row text-center">
+              <h3 class="text-uppercase text-center mt-3" style="font-size: 40px;">Invoice</h3>
+              <p>{{user.username}}</p>
+            </div>
+      
+            <div class="row mx-3">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                  <tr>
+                    <td> <img src="Home/media/{{item.product.image}}" alt="" srcset="" style="width: 200px; height: 200px;"></td>
+                    <td> {{item.product.name}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.amount}}</td>
+                  </tr>
+               
+                  {% endfor %}
+                </tbody>
+              </table>
+              
+            </div>
+
+        
+            <hr>
+            <div class="row">
+              <div class="col-xl-8" style="margin-left:60px">
+                <p class="float-end"
+                  style="font-size: 30px; color: red; font-weight: 400;font-family: Arial, Helvetica, sans-serif;">
+                  Total:
+                  <span>{{TotalPrice}}$ </span></p>
+              </div>
+      
+            </div>
+                
+            <div class="row mt-2 mb-5 ">
+              <p class="fw-bold col-2">Date: <span class="text-muted" id="date" >  </span></p>
+
+              <div class="col-xl-10 ">
+                <form action="{% url 'home:order' %}" method="post" >
+                    {% csrf_token %}
+                   {{form.as_p}}
+                  
+                  <button class="float-end btn btn-primary w-25" >Pay</button>
+                </form>
+              </div>
+
+             
+            </div>
+            
+      
+          </div>
+      
+      
+      
+        </div>
+        <div class="card-footer bg-black"></div>
+      </div>
+
+     <script>
+         const date=new Date();
+         let text=date.toLocaleDateString()
+         document.getElementById("date").innerHTML = text;
+         
+
+     </script>
 {% endblock content %}

@@ -1,46 +1,104 @@
 {% extends 'pages/page.html' %}
 {% block content %}
-    <div class="container-fluid">
-      <div class="container">
-        {% if cart == '' %}
-            <h4 style="text-align:center;font-size:40px" class="mt-5 mb-5">hay mua san pham</h4>
-         {% else %}
-         <table class="table table-bordered  mt-5 text-center align-middle ">
-                <thead>
-                  <tr>
-                    <td>San Pham</td>
-                    <td>San Pham</td>
-                    <td>Gia San Pham</td>
-                    <td>So Luong</td>
-                    <td>xoa</td>
-                  </tr>
-                </thead>
-                <tbody>
-             {% for item in cart %}
-                 <tr>
-                   <td><img src="../Home/media/{{item.product.image}}" alt="" style="height:100px"></td>
-                   <td>{{item.product.name}}</td>
-                   <td>{{item.product.price}}</td>    
-                   <td > <input type="number" value="{{item.quantity}}" id="quantity{{item.id}}" min='1' onchange="update({{item.id}})"> </td>   
-                   <td> <a href="{% url 'home:delete-cart' item.id %}">Xoa</a></td>  
-                 </tr>  
-             {% endfor %}
-               </tbody>
-         </table>
-       
-                   <h3 class="text-center" id="total">Tong Tien :  {{TotalPrice}}$ </h3> 
-                 <div class='text-center mb-5'><a href="{% url 'home:order-form' %}" class="btn btn-danger" style="font-size:25px">Thanh Toan</a>   
-            {% endif %}
-      
-       </div>
+   
+   {% if cart == '' %}
+   <section class="d-flex  flex-column justify-content-center align-items-center" style="background-color: aliceblue;min-height:500px"> 
+     <h1> hay mua san pham </h1>   
+     <a href="{% url 'home:Shopping' %}" style="font-size:30px">Shopping</a>
+   </section>
+   {% else %}
+   <section class="vh-100" style="background-color: aliceblue;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col">
+          <p><span class="h2">Shopping Cart </span><span class="h4" id="item">({{productCount.total}} item in your cart)</span></p>
+  
+          <div class="card mb-4">
+            <div class="card-body p-4">
+            {% for item in cart  %}
+              <div class="row align-items-center">
+                <div class="col-md-2 ">
+                  <img src="../Home/media/{{item.product.image}} " style="height:100px;width:150px"
+                    class="img-fluid" alt="Generic placeholder image">
+                </div>
+                <div class="col-md-2  d-flex justify-content-center text-center ">
+                  <div>
+                    <p class="small text-muted pb-2">Name</p>
+                    <p class="lead fw-normal mb-0">{{item.product.name}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2  d-flex justify-content-center text-center">
+                  <div>
+                    <p class="small text-muted pb-2">Type</p>
+                    <p class="lead fw-normal mb-0">{{item.product.type}}</p>
+                  </div>
+                </div>
+                
+                
+                <div class="col-md-2  d-flex justify-content-center text-center">
+                  <div>
+                    <p class="small text-muted pb-2">Quantity</p>
+                    <p class="lead fw-normal mb-0"> <input type="number" value="{{item.quantity}}" id="quantity{{item.id}}" min='1' onchange="update({{item.id}})" onkeypress="check(event)" > </p>
+                  </div>
+                </div>
+                <div class="col-md-2  d-flex justify-content-center text-center">
+                  <div>
+                    <p class="small text-muted pb-2 ">Price</p>
+                    <p class="lead fw-normal mb-0 ">{{item.product.price}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2  d-flex justify-content-center text-center">
+                  <div>
+                    <p class="small text-muted pb-2">Xoa</p>
+                    <p class="lead fw-normal mb-0"><a href="{% url 'home:delete-cart' item.id %}">Xoa</a></p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              
+  
+            </div>
+          </div>
+  
+          <div class="card mb-5">
+            <div class="card-body p-4">
+  
+              <div class="float-end">
+                <p class="mb-0 me-5 d-flex align-items-center">
+                  <span class="small text-muted me-2">Order total:</span> <span
+                    class="lead fw-normal" id="total"> {{TotalPrice}}$ </span>
+                </p>
+              </div>
+  
+            </div>
+          </div>
+  
+          <div class="d-flex justify-content-end">
+            <a href="{% url 'home:Shopping' %}" type="button" class="btn btn-light btn-lg me-2">Continue shopping</a>
+            <a href="{% url 'home:order-form' %}"  type="button" class="btn btn-primary btn-lg" >Payment</a>
+    
+          </div>
+  
+        </div>
+      </div>
     </div>
-
-
+  </section>
+   {% endif %}
+     
+    
+ 
  
   <script type="text/javascript" >
    
-  
+    function check(event) {
+      var x = event.charCode || event.keyCode;
+      if (x <48 || x > 57) {  
+         event.preventDefault()
+      }
+    }
+
       function update(id){
+        
         quantity=$('#quantity'+id).val()
         $.ajax({
           url:'{% url 'home:update-cart' %}',
@@ -48,7 +106,7 @@
           data:{csrfmiddlewaretoken: '{{ csrf_token }}',quantity:quantity,id:id },
           success:function(data){
             $("#total").load(location.href + " #total")
-            
+            $("#item").load(location.href + " #item")
           }
         })
         
