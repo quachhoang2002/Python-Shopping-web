@@ -5,7 +5,7 @@ from multiprocessing import context
 from unicodedata import category, name
 from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.core import validators
 from django.contrib import messages
 from django.urls import is_valid_path
@@ -168,7 +168,12 @@ def bill(request):
 
 def order_detail(request):
     if request.method=="POST":
-        order_id=request.POST.get('id')
-        order_detail=orderDetail.objects.filter(order=order_id)
-        context={'order_detail':order_detail}
-        return render(request,'pages/order-detail.html',context)
+         order_id=request.POST.get('id')
+         order_detail=list(orderDetail.objects.filter(order__id=order_id).values('product__name','quantity','product__price'))
+         return JsonResponse(order_detail,safe=False)
+    else:
+        return HttpResponse('')
+        
+   
+  
+        
