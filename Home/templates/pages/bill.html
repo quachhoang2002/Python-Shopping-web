@@ -11,6 +11,7 @@
                   <td>Dia Chi</td>
                   <td>Thoi Gian</td>
                   <td>Tong Tien</td>
+                  <td>Trang thai</td>
                </tr>
           </thead>    
           
@@ -22,6 +23,12 @@
                  <td>{{item.address}}</td>
                  <td>{{item.create_at}}</td>
                  <td>{{item.TotalPrice}}$</td>
+                 <td>{% if item.status == 1 %}
+                         Da xu ly
+                      {% else %}
+                         Dang cho xu ly
+                      {% endif %}
+                 </td>
                  <td class="text-center"> <button onclick="showdetail({{item.id}})" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#myModal">Chi tiet</button></td>  
               </tr>      
             {% endfor %}

@@ -11,18 +11,21 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'themify-icons/themify-icons.css' %}">
     <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     <title>Document</title>
 </head>
 <body>
      <div class="container-fluid header">
        
           <ul class="nav justify-content-end">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'home:bill' %}">Xem Don Hang <i class="ti-notepad"></i> </a>
-            </li>    
+  
 
             {% if request.user.is_authenticated %}
+  
+               <li class="nav-item">
+                <a class="nav-link" href="{% url 'home:bill' %}">Xem Don Hang <i class="ti-notepad"></i> </a>
+              </li>    
                 <li class="nav-item">
                    <a href="" class="nav-link">{{user.username}}</a>
                 </li>            
@@ -34,8 +37,7 @@
                  <a href="{% url 'home:Login' %}" class="nav-link">Dang nhap</a>  
                </li>                  
             {% endif %} 
-          
-            
+
             </li>
           </ul>         
       </div>    
