@@ -108,6 +108,7 @@
    <script type="text/javascript" >
       
         function addtoCart(id){  
+          {% if request.user.is_authenticated %}
           $.ajax({ 
             url:'{% url 'home:addtoCart' %}',
             method:'POST',
@@ -115,8 +116,10 @@
             success:function(data){
               alert('Them thanh cong')
             }
-          })
-          
+          }) 
+          {% else %}
+            location.href='{% url 'home:Login' %}'
+          {% endif %}
         }
     </script>
     

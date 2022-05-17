@@ -78,6 +78,7 @@ def Register(request):
         if form.is_valid():
             user=form.cleaned_data.get('username')
             form.save()
+            return redirect('home:Login')
             messages.success(request,'tao thanh cong '+user)
     context={'form':form,'page':page}
     return render(request, 'pages/login-register-form.html', context)
