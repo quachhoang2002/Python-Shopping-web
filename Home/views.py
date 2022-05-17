@@ -57,10 +57,6 @@ def Login(request):
     if request.method=='POST':
         username=request.POST.get('username')
         password=request.POST.get('password')
-        try:
-            User.objects.get(username=username)
-        except:
-            messages.error(request,'Khong ton tai toan khoan')
         user=authenticate(request,username=username,password=password)
         if user is not None:
             login(request, user)
@@ -83,8 +79,6 @@ def Register(request):
             user=form.cleaned_data.get('username')
             form.save()
             messages.success(request,'tao thanh cong '+user)
-    else:
-        messages.error(request,'Xay ra su co')
     context={'form':form,'page':page}
     return render(request, 'pages/login-register-form.html', context)
  

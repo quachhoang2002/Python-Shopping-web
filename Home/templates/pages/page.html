@@ -34,8 +34,11 @@
                </li>        
              {% else %}
                <li class="nav-item">
-                 <a href="{% url 'home:Login' %}" class="nav-link">Dang nhap</a>  
-               </li>                  
+                 <a href="{% url 'home:Login' %}" class="nav-link">Dang nhap </a>  
+               </li>  
+               <li class="nav-item">
+                <a href="{% url 'home:Register' %}" class="nav-link">Dang ky</a>  
+              </li>                
             {% endif %} 
 
             </li>

@@ -1,7 +1,7 @@
 {% extends 'pages/page.html' %} 
 {% block content %}
    
-   <div class="container-fluid pb-5 " style="background-color:#9da2a7"> 
+   <div class="container-fluid pb-5 gradient-custom-2" > 
          <h3 style="text-align:center;font-size: 50px;color:aquamarine;font-family:emoji" class="pt-5">Python Shop</h3>
      <div class="row">
          <div class="col-2 mt-5">
@@ -32,18 +32,29 @@
 
               {% for item in page  %} 
               <div class="col-xl-3 col-lg-4 col-sm-6 d-flex justify-content-center mt-5 ">
-                <div class="card text-center"  style="width:250px; box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);">
+                <div class="card text-center product-card"  >
                   <div class="card-img">
                      <img  src="../Home/media/{{item.image}}" alt="" srcset="" style="width: 100%;height:250px" >
                   </div>     
-                  <div class="card-body" style="background: #e9e7e4;">
+                  <div class="card-body pb-5" style="background: #e9e7e4;">
                      
                      <h5 class="card-title">  {{item.name}}  </h5>
                      <p class="card-text">Price : {{item.price}}$</p>
-                     <p class="card-text">{{item.type}}</p>
-                     <a href="{% url 'home:ProductDetail' item.id  %}">Xem Chi tiet</a>
-                     <br>
-                     <button onclick="addtoCart({{item.id}})" class="btn btn-primary">addtocart</button>
+
+                      <div class="small-ratings card-text">
+                          <i class="fa fa-star rating-color"></i>
+                          <i class="fa fa-star rating-color"></i>
+                          <i class="fa fa-star rating-color"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                      </div>   
+             
+                     
+                     <div class="addtoCart">
+                       <a href="{% url 'home:ProductDetail' item.id  %}" >Xem Chi tiet</a>
+                       <br>
+                       <button onclick="addtoCart({{item.id}})" class="btn btn-primary ">addtocart</button>
+                    </div>
                    </div>                  
                 </div>
               </div>                      
@@ -88,7 +99,8 @@
           </nav>
            
          </div>
-
+           
+          
       </div>
    </div>    
  
@@ -106,6 +118,6 @@
           })
           
         }
-        </script>
+    </script>
     
 {% endblock content %}  
