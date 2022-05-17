@@ -166,7 +166,7 @@ def order_detail(request):
          order_detail=list(orderDetail.objects.filter(order__id=order_id).values('product__name','quantity','product__price'))
          return JsonResponse(order_detail,safe=False)
     else:
-        return HttpResponse('hello')
+        return HttpResponse(' ')
         
    
   
